@@ -9,18 +9,16 @@ struct LinkedList<T> {
 }
 
 impl<T> LinkedList<T> {
-    pub fn new(item: T) -> Self {
+    pub fn new(item: T, rest: Node<T>) -> Self {
         LinkedList {
             first: item,
             rest: Node::<T>::Nil,
         }
     }
 
-    fn add_first(self: &mut Self, item: T) {
-        let mut tail: LinkedList<T> = LinkedList::<T>::new(self.first);
-        tail.rest = self.rest;
-        self.first = item;
-        self.rest = Node::<T>::Link(Box::new(tail));
+    fn add_first(self: Self, item: T) {
+        let curr: Self = self; // when declaring a new variable in rust, always use let (and mut if you want the variable to be mutable) 
+        self = LinkedList::new(item, rest);
     }
 }
 
@@ -28,6 +26,7 @@ impl<T> LinkedList<T> {
 fn main() {
     println!("Hello, world!");
 
-    let mut lst: LinkedList<i32> = LinkedList::<i32>::new(1);
+    let mut lst: LinkedList<i32> = LinkedList::<i32>::new(1, Node::<i32>::Nil);
+    lst.add_first(2);
     println!("({})", lst.first);
 }
